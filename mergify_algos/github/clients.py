@@ -179,7 +179,7 @@ query($owner: String!, $name: String!, $after: String) {
       edges {
         node {
           login
-          starredRepositories(first: 100, orderBy: {field: STARRED_AT, direction: DESC}) {
+          starredRepositories(first: 50, orderBy: {field: STARRED_AT, direction: DESC}) {
             totalCount
             nodes {
               nameWithOwner

@@ -21,7 +21,7 @@ def test_find_neighbour_repos(owner, repo, expected_length, github_token):
     timer_start = time.perf_counter()
 
     response, sorted_response = find_neighbour_repos(
-        owner=owner, repo=repo, token=github_token
+        owner=owner, repo=repo, token=github_token, limit_pages=1
     )
 
     timer_end = time.perf_counter()

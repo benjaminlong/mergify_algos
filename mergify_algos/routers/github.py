@@ -2,6 +2,7 @@ from fastapi import APIRouter
 
 from mergify_algos import github
 from mergify_algos.config import settings
+from mergify_algos.utils import display_secret
 
 
 router = APIRouter(
@@ -63,7 +64,7 @@ async def compute_starneighbours(
             "use_async": use_async,
             "limit_pages": limit_pages,
             "threshold": threshold,
-            "gh_token": gh_token,
+            "gh_token": display_secret(gh_token),
         },
         "results": sorted_results,
     }
@@ -97,7 +98,7 @@ async def graphql_starneighbours(
             "github-repo": f"{owner}/{repo}",
             "limit_pages": 1,
             "threshold": threshold,
-            "gh_token": gh_token,
+            "gh_token": display_secret(gh_token),
         },
         "results": sorted_results,
     }

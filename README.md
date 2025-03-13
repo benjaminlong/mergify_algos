@@ -81,12 +81,19 @@ Use query parameter `gh_token` on our APIs using GitHub.
 ```shell
 fastapi dev mergify_algos/app.py
 # or
+python -m mergify_algos.app
+
+# Currently only work on PyCharm because PyCharm add content and source root
+# directory to PYTHONPATH
 python mergify_algos/app.py
 ```
 
 - Visit the FastAPI endpoints: [http://localhost:8000/](http://localhost:8000/)
 - Visit the API docs page to try the endpoints:
 [http://localhost:8000/docs](http://localhost:8000/docs)
+- Visit the GitHub API Exemple:
+  - http://localhost:8000/github/repos/{owner}/{repos}
+  - http://localhost:8000/github/repos/Mergifyio/mergify-cli/?limit_pages=1&threshold=3
 
 
 ## TODOs & Improvements
