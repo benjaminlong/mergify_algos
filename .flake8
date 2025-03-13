@@ -1,0 +1,29 @@
+[flake8]
+# https://black.readthedocs.io/en/stable/guides/using_black_with_other_tools.html#flake8
+# Currently we ignore three checks:
+# - E203: Whitespace before ':'
+# src: https://www.flake8rules.com/rules/E203.html
+# Conflicts with black and it looks like we should disable flake8's one Does not
+# comply with E203 from pep8 psf/black#315
+# - E501: Line too long. Handle by black
+# src: https://www.flake8rules.com/rules/E501.html
+# Many of docstrings exceeds the max line length
+# - W503: Line break occurred before a binary operator
+# src: https://www.flake8rules.com/rules/W503.html
+# Conflicts with black
+ignore = E203,E501,W503
+# Currently this is ignored, with E501.
+# :TODO: Either enabled it here or use black.
+# max-line-length = 88
+exclude =
+  .git,
+  __pycache__,
+  docs/conf.py,
+  venv,
+  venv*,
+  htmlcov,
+max-complexity = 10
+#show-source = false
+per-file-ignores =
+    # imported but unused
+    __init__.py: F401
