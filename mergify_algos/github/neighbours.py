@@ -4,9 +4,11 @@ from mergify_algos.github.clients import GitHubRestClient, GitHubGraphQLClient
 
 
 # -----------------------------------------------------------------------------
-# Algo using GitHub Rest API
+# Algo shared utils
 def _transform_user_starred_repositories(dict, exclude_repos=None):
-    """Swap keys and items"""
+    """Swap keys and items.
+    Turn the dict {"user": ["repos"]} to dict {"repo": ["users"]}
+    """
     results = {}
 
     if exclude_repos is None:
@@ -27,11 +29,12 @@ def _transform_user_starred_repositories(dict, exclude_repos=None):
     return results
 
 
-def _compute_and_order_neighbours(repo_neighbours, users_threshold=2):
+def _compute_and_order_neighbours(repo_user_map, users_threshold=2):
+    """Format & sort the dict {"repo": ["users"]}"""
     results = []
 
     # Recover only repository with more than `users_threshold` in-common users
-    for r, users in repo_neighbours.items():
+    for r, users in repo_user_map.items():
         if len(users) < users_threshold:
             continue
 
@@ -44,6 +47,8 @@ def _compute_and_order_neighbours(repo_neighbours, users_threshold=2):
     return results, sorted_results
 
 
+# -----------------------------------------------------------------------------
+# Algo using GitHub Rest API
 def find_neighbour_repos(
     owner: str, repo: str, token: str, limit_pages: int = 2, threshold: int = 2
 ):
@@ -88,13 +93,13 @@ def find_neighbour_repos(
         user_repo_map[stargazer] = _stargazer_starred_repos
 
     # Revert the user_repo_map dictionary to be "repo" listing in-common "users"
-    repo_neighbours = _transform_user_starred_repositories(
+    repo_user_map = _transform_user_starred_repositories(
         user_repo_map, exclude_repos=[f"{owner}/{repo}"]
     )
 
     # Compute neighbours and sort result
     results, sorted_results = _compute_and_order_neighbours(
-        repo_neighbours, users_threshold=threshold
+        repo_user_map, users_threshold=threshold
     )
 
     return results, sorted_results
@@ -159,13 +164,13 @@ async def afind_neighbour_repos(
     # user_repo_map = dict(zip(repo_stargazers, results))
 
     # Revert the user_repo_map dictionary to be "repo" listing in-common "users"
-    repo_neighbours = _transform_user_starred_repositories(
+    repo_user_map = _transform_user_starred_repositories(
         user_repo_map, exclude_repos=[f"{owner}/{repo}"]
     )
 
     # Compute neighbours and sort result
     results, sorted_results = _compute_and_order_neighbours(
-        repo_neighbours, users_threshold=threshold
+        repo_user_map, users_threshold=threshold
     )
 
     return results, sorted_results
@@ -183,13 +188,13 @@ def find_graphql_neighbour_repos(owner: str, repo: str, token: str, threshold: i
     )
 
     # Revert the user_repo_map dictionary to be "repo" listing in-common "users"
-    repo_neighbours = _transform_user_starred_repositories(
+    repo_user_map = _transform_user_starred_repositories(
         user_repo_map, exclude_repos=[f"{owner}/{repo}"]
     )
 
     # Compute neighbours and sort result
     results, sorted_results = _compute_and_order_neighbours(
-        repo_neighbours, users_threshold=threshold
+        repo_user_map, users_threshold=threshold
     )
 
     return results, sorted_results

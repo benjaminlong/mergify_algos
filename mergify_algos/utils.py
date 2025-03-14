@@ -1,4 +1,3 @@
-
 # blong: I'm sure it exists a way better implementation somewhere inside python.
 def display_secret(string: str):
     """Display only part of a secret string"""

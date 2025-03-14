@@ -4,7 +4,7 @@ Backend, using FastAPI for the Mergify's test algorithms
 
 Link: [Stargazer Test Statement](https://mergify.notion.site/Stargazer-4cf5427e34a542f0aee4e829bb6d9035)
 
-> Work Time: ~10h.
+> Work Time: ~12h.
 
 ## Installation
 
@@ -12,7 +12,7 @@ Currently, tested using Python 3.9
 
 ```shell
 # Fetch source code from github
-git clone ...
+git clone git@github.com:benjaminlong/mergify_algos.git
 cd mergify_algos
 
 # Create python virtual env
@@ -65,7 +65,7 @@ See:
 
 #### Configure `.env` file
 
-Create `.env` at the ROOT project directory and set `GITHUB_TOKEN` variable.go
+Create `.env` at the ROOT project directory and set `GITHUB_TOKEN` variable.
 
 Your `.env` file should look like:
 ```

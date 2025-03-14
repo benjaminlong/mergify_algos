@@ -18,7 +18,7 @@ async def root(request: Request):
         "client_ip": ip,
         "app_settings": {
             "app_name": settings.app_name,
-            "github_token": display_secret(settings.github_token)
+            "github_token": display_secret(settings.github_token),
         },
     }
 
